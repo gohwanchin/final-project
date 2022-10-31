@@ -1,0 +1,13 @@
+<div class="container-fluid">
+    <div class="row align-items-center" style="min-height: 100vh">
+        <div class="error-template text-center">
+            <h2 *ngIf="code==404; else otherError">Oops! 404 Not Found</h2>
+            <ng-template #otherError>
+                <h2>Error {{code}}</h2>
+            </ng-template>
+            <div class="error-details">Sorry an error has occured. Requested page not found!</div>
+            <div class="error-actions mt-3"><a [routerLink]="['/']" class="btn btn-primary"><i
+                        class="bi bi-house-fill"></i> <span>Take Me Home</span></a></div>
+        </div>
+    </div>
+</div>

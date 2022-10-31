@@ -1,0 +1,17 @@
+<main class="col ps-md-2 pt-2">
+    <!-- <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+        class="border rounded-3 p-1 text-decoration-none"><i class="bi bi-list py-2 p-1"></i></a> -->
+    <!-- Insert page content here -->
+    <div class="row d-flex justify-content-center">
+        <div class="col-8 mt-1">
+            <h1 class="text">Search</h1>
+            <form action="" [formGroup]="form" (ngSubmit)="submit()">
+                <div class="input-group mb-3">
+                    <input type="text" formControlName="query" class="form-control">
+                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid"><i
+                            class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

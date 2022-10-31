@@ -1,0 +1,38 @@
+<main class="col ps-md-2 pt-2">
+    <!-- <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+        class="border rounded-3 p-1 text-decoration-none"><i class="bi bi-list py-2 p-1"></i></a> -->
+    <div class="row mt-2">
+        <div class="col-md-6 mb-4 d-flex flex-column">
+            <h3 class="mx-auto">{{tv.name}} ({{tv.firstAirDate | slice:0:4}})</h3>
+            <div class="mx-auto"><img class="rounded" [src]="tv.poster"></div>
+        </div>
+        <div class="col-md-6 my-auto mx-auto px-4">
+            <p style="background-color:#D2B4DE"><b>Media Details</b></p>
+            <div class="container-fluid py-2">
+                <h5 class="font-weight-light">Series cast</h5>
+                <div class="d-flex flex-row flex-nowrap overflow-auto">
+                    <div class="card h-100" *ngFor="let c of tv.cast | slice:0:10">
+                        <img [src]="c.profile" class="card-img-top rounded"
+                            onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'">
+                        <div class="card-body">
+                            <h5 class="card-title">{{c.name}}</h5>
+                            <!-- <p class="card-text">{{c.roles}}</p> -->
+                            <h6 class="card-subtitle text-muted">{{c.totalEpCount}} Episodes</h6>
+                            <a [routerLink]="['/cast',c.id]" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p>Overview: {{tv.overview}}</p>
+            <p *ngIf="tv.tagline">Tagline: {{tv.tagline}}</p>
+            <p>Number of Seasons: {{tv.numOfSeasons}}</p>
+            <p>Genres: {{tv.genres.join(', ')}}</p>
+            <form th:if="${!added}" th:action="@{|/t/title/${title.id}/add|}" method="post"><button type="submit"
+                    class="btn btn-primary"><i class="bi-plus-square"></i> Add to
+                    Watchlist</button></form>
+            <form th:if="${added}" th:action="@{|/t/title/${title.id}/remove|}" method="post"><button type="submit"
+                    class="btn btn-danger"><i class="bi-dash-square"></i> Remove from
+                    Watchlist</button></form>
+        </div>
+    </div>
+</main>

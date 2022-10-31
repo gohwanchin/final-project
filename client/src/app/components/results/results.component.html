@@ -1,0 +1,33 @@
+<main class="col ps-md-2 pt-2">
+    <!-- <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+        class="border rounded-3 p-1 text-decoration-none"><i class="bi bi-list py-2 p-1"></i></a> -->
+    <!-- Insert page content here -->
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8 mt-1 mb-3 text-center">
+            <h2 class="text">{{searchPage.totalResults}} Search Results</h2>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-4 g-5 mx-5">
+        <div class="col d-flex justify-content-center" *ngFor="let tv of searchPage.results">
+            <div class="card h-100">
+                <img [src]="tv.poster" class="card-img-top rounded" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'">
+                <div class="card-body">
+                    <h5 class="card-title">{{tv.name}}</h5>
+                    <h6 class="card-subtitle text-muted">{{tv.firstAirDate | slice:0:4}}</h6>
+                    <a [routerLink]="['/tv',tv.id]" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul *ngIf="searchPage.totalPages > 1" class="pagination mt-4 justify-content-center">
+        <li class="page-item" [ngClass]="{'disabled': searchPage.page == 1}">
+            <a class="page-link" (click)="page(searchPage.page - 1)">Previous</a>
+        </li>
+        <li class="page-item" *ngFor="let i of pages" [ngClass]="{'active': searchPage.page == i}">
+            <a class="page-link" (click)="page(i)">{{i}}</a>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': searchPage.page == searchPage.totalPages}">
+            <a class="page-link" (click)="page(searchPage.page + 1)">Next</a>
+        </li>
+    </ul>
+</main>
