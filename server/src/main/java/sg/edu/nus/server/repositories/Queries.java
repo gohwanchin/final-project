@@ -3,6 +3,8 @@ package sg.edu.nus.server.repositories;
 public interface Queries {
     public static final String SQL_GET_USER_BY_USERNAME_AND_PASS 
             = "select * from users where username = ? and password = sha1(?)";
+    public static final String SQL_LOAD_USER_BY_USERNAME 
+            = "select password from users where username = ?";        
     public static final String SQL_ADD_USER = "insert into users(username, password) values(?, sha1(?))";
     public static final String SQL_ADD_TITLE_TO_WATCHLIST 
             = "insert into watchlists(username, id, date_added) values(?, ?, ?)";

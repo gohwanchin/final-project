@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import sg.edu.nus.server.models.User;
 
 @Repository
-public class UserRepository implements Queries{
+public class UserRepository implements Queries {
     
     @Autowired
     JdbcTemplate template;
@@ -18,6 +18,13 @@ public class UserRepository implements Queries{
     public Boolean userLogin(User u) {
         SqlRowSet rs = template.queryForRowSet(SQL_GET_USER_BY_USERNAME_AND_PASS, u.getUsername(), u.getPassword());
         return rs.next();
+    }
+
+    public String loadUserByUsername(String username) {
+        SqlRowSet rs = template.queryForRowSet(SQL_LOAD_USER_BY_USERNAME, username);
+        while(rs.next())
+            return rs.getString("password");
+        return "null";
     }
 
     public Boolean addUser(User u) {
