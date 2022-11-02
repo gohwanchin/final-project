@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import sg.edu.nus.server.models.User;
+import sg.edu.nus.server.models.UserModel;
 
 @Repository
 public class UserRepository implements Queries {
@@ -15,7 +15,7 @@ public class UserRepository implements Queries {
     @Autowired
     JdbcTemplate template;
 
-    public Boolean userLogin(User u) {
+    public Boolean userLogin(UserModel u) {
         SqlRowSet rs = template.queryForRowSet(SQL_GET_USER_BY_USERNAME_AND_PASS, u.getUsername(), u.getPassword());
         return rs.next();
     }
@@ -27,7 +27,7 @@ public class UserRepository implements Queries {
         return "null";
     }
 
-    public Boolean addUser(User u) {
+    public Boolean addUser(UserModel u) {
         int added = template.update(SQL_ADD_USER, u.getUsername(), u.getPassword());
         return added > 0;
     }

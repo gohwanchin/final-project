@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sg.edu.nus.server.models.Tv;
-import sg.edu.nus.server.models.User;
+import sg.edu.nus.server.models.UserModel;
 import sg.edu.nus.server.repositories.UserRepository;
 
 @Service
@@ -24,11 +24,11 @@ public class UserService {
 
     private Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public Boolean login(User u) {
+    public Boolean login(UserModel u) {
         return userRepo.userLogin(u);
     }
 
-    public Boolean addUser(User u) {
+    public Boolean addUser(UserModel u) {
         try {
             return userRepo.addUser(u);
         } catch (Exception e) {
@@ -36,19 +36,19 @@ public class UserService {
         }
     }
 
-    public Boolean addTitleToWatchlist(User u, Integer id) {
+    public Boolean addTitleToWatchlist(UserModel u, Integer id) {
         return userRepo.addTitleToWatchlist(u.getUsername(), id);
     }
 
-    public Boolean removeTitleFromWatchlist(User u, Integer id) {
+    public Boolean removeTitleFromWatchlist(UserModel u, Integer id) {
         return userRepo.removeTitleFromWatchlist(u.getUsername(), id);
     }
 
-    public Boolean checkTitleExists(User u, Integer id) {
+    public Boolean checkTitleExists(UserModel u, Integer id) {
         return userRepo.checkTitleExistsInWatchlist(u.getUsername(), id);
     }
 
-    public List<Tv> getWatchlist(User u) {
+    public List<Tv> getWatchlist(UserModel u) {
         List<Integer> list = userRepo.getWatchlist(u.getUsername());
         logger.info(list.toString());
         List<Tv> watchlist = list.stream()

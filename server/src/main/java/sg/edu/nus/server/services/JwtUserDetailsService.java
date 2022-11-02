@@ -1,17 +1,26 @@
 package sg.edu.nus.server.services;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import sg.edu.nus.server.models.UserModel;
 import sg.edu.nus.server.repositories.UserRepository;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService{
     @Autowired
     UserRepository userRepo; 
+
+    @Autowired
+    UserService userSvc;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -20,5 +29,13 @@ public class JwtUserDetailsService implements UserDetailsService{
             return new User(username, pass, new ArrayList<>());
         else
             throw new UsernameNotFoundException("Username %s not found".formatted(username));
+    }
+
+    public Optional<UserModel> register(UserModel u) {
+        u.setPassword(passwordEncoder.encode(u.getPassword()));
+        if (userSvc.addUser(u))
+            return Optional.of(u);
+        else    
+            return Optional.empty();
     }
 }

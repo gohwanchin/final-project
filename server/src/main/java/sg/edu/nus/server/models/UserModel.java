@@ -2,7 +2,7 @@ package sg.edu.nus.server.models;
 
 import java.util.List;
 
-public class User {
+public class UserModel {
     private String username;
     private String password;
     private List<Tv> watchlist;
