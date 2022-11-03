@@ -14,7 +14,7 @@ export class SearchService {
 
     searchTV(query: string, page: number = 1) {
         let params = new HttpParams().set("query", query).set("page", page)
-        console.log(params);
+        console.debug(params);
         return firstValueFrom(
             this.http.get<Response>(URL + '/search', { params })
         )

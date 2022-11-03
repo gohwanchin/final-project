@@ -1,0 +1,19 @@
+<div class="row d-flex justify-content-center">
+    <div class="col-6 mt-3 text-center">
+        <h1 class="text mb-4">Sign up</h1>
+        <form action="#" [formGroup]="form" (ngSubmit)="submit()">
+            <div class="form-floating mb-3">
+                <input type="text" name="username" id="username" formControlName="username" class="form-control"
+                    placeholder="username" required>
+                <label for="username">Username</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" name="password" id="password" formControlName="password" class="form-control"
+                    placeholder="password" required>
+                <label for="password">Password</label>
+            </div>
+            <!-- <div class="border border-danger mb-3 text-danger" th:if="${msg}" th:text="${msg}"></div> -->
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Register</button>
+        </form>
+    </div>
+</div>

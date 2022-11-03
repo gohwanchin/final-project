@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -10,13 +10,22 @@ import { SearchService } from './services/search.service';
 import { ResultsComponent } from './components/results/results.component';
 import { TvDetailsComponent } from './components/tv-details/tv-details.component';
 import { ErrorComponent } from './components/error/error.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { UserService } from './services/user.service';
+import { AuthService } from './services/auth.service';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { AuthGuard } from './auth/auth.guard';
+import { LoginGuard } from './auth/login.guard';
 
 const appRoutes: Routes = [
-  {path: '', component: SearchComponent},
-  {path: 'results', component: ResultsComponent},
-  {path: 'tv/:id', component: TvDetailsComponent},
-  {path: 'error/:code', component: ErrorComponent},
-  {path: '**', redirectTo: '/', pathMatch: 'full'}
+  { path: '', component: LoginComponent, canActivate: [LoginGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
+  { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
+  { path: 'results', component: ResultsComponent, canActivate: [AuthGuard] },
+  { path: 'tv/:id', component: TvDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'error/:code', component: ErrorComponent },
+  { path: '**', redirectTo: '/error/404', pathMatch: 'full' }
 ]
 
 @NgModule({
@@ -25,15 +34,24 @@ const appRoutes: Routes = [
     SearchComponent,
     ResultsComponent,
     TvDetailsComponent,
-    ErrorComponent
+    ErrorComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     FormsModule, ReactiveFormsModule,
     HttpClientModule,
-		RouterModule.forRoot(appRoutes, { useHash: true })
+    RouterModule.forRoot(appRoutes, { useHash: true })
   ],
-  providers: [ SearchService ],
+  providers: [SearchService, UserService,
+    AuthService, AuthGuard, LoginGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

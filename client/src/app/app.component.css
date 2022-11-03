@@ -1,0 +1,21 @@
+#sidebar-nav {
+    width: 160px;
+}
+
+#sidebar-nav .form-control {
+    padding: .375rem 0.375rem;
+}
+
+#sidebar-nav .form-control:focus {
+    outline: 0 !important;
+    border-color: initial;
+    box-shadow: none;
+}
+
+.list-group-item.form-item {
+    padding: 0 !important;
+}
+
+#sidebar-nav .input-group-text {
+    padding: 0.375rem 0.1rem 0.375rem 0.8rem;
+}

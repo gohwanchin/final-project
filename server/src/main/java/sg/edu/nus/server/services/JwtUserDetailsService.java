@@ -3,6 +3,8 @@ package sg.edu.nus.server.services;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,13 +24,17 @@ public class JwtUserDetailsService implements UserDetailsService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private Logger logger = LoggerFactory.getLogger(JwtUserDetailsService.class);
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String pass = userRepo.loadUserByUsername(username);
         if (!pass.equals("null"))
             return new User(username, pass, new ArrayList<>());
-        else
+        else{
+            logger.error("Username %s not found".formatted(username));
             throw new UsernameNotFoundException("Username %s not found".formatted(username));
+        }
     }
 
     public Optional<UserModel> register(UserModel u) {

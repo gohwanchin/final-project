@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TVSearchPage } from 'src/app/models';
 import { SearchService } from 'src/app/services/search.service';
@@ -13,17 +14,18 @@ export class ResultsComponent implements OnInit {
   searchPage!: TVSearchPage
   pages: number[] = []
 
-  constructor(private searchSvc: SearchService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private searchSvc: SearchService, private route: ActivatedRoute, private router: Router, private title: Title) { }
 
   ngOnInit(): void {
     this.searchPage = this.searchSvc.searchPage
+    this.title.setTitle("Search results")
     if(!!!this.searchPage) {
       const page = this.route.snapshot.queryParams['page']
       const query = this.route.snapshot.queryParams['query']
-      console.log(page, query);
+      console.info(page, query);
       this.searchSvc.searchTV(query, page)
           .then(result => {
-            console.log(result)
+            console.debug(result)
             if(result.code == 200){
               const data = JSON.parse(result.data)
               this.searchSvc.searchPage = data

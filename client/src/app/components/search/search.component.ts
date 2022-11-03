@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TVSearchPage } from 'src/app/models';
 import { SearchService } from 'src/app/services/search.service';
@@ -13,18 +14,19 @@ export class SearchComponent implements OnInit {
 
   form!: FormGroup
 
-  constructor(private fb: FormBuilder, private searchSvc: SearchService, private router: Router) { }
+  constructor(private fb: FormBuilder, private searchSvc: SearchService, private router: Router, private title: Title) { }
 
   ngOnInit(): void {
     this.form = this.createForm()
+    this.title.setTitle("Search")
   } 
 
   submit(){
     const query = this.form.value.query
-    console.log(query);
+    console.debug(query);
     this.searchSvc.searchTV(query)
         .then(result => {
-          console.log(result);
+          console.debug(result);
           if(result.code == 200){
             const data = JSON.parse(result.data)
             this.searchSvc.searchPage = data

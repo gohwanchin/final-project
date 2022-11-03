@@ -27,7 +27,7 @@ public class SearchRestController {
         resp.setCode(200);
         resp.setMessage("Search %s in TV".formatted(query));
         resp.setData(search.toJson().toString());
-        logger.info("Response: ", resp.toJson().toString());
+        logger.debug("Response: ", resp.toJson().toString());
         return ResponseEntity.status(HttpStatus.OK).body(resp.toJson().toString());
     }
 
