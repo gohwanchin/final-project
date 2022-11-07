@@ -21,9 +21,13 @@ export class LoginComponent implements OnInit {
   }
 
   submit(){
-    this.authSvc.login(this.form.value.username, this.form.value.password).subscribe(res =>{
+    this.authSvc.login(this.form.value.username, this.form.value.password).then(res =>{
       console.log(res);
       this.router.navigate(['/search'])
+    }).catch(err =>{
+      console.error();
+      alert("Wrong username or password \nPlease try again")
+      this.form = this.createForm()
     })
   }
 

@@ -1,0 +1,11 @@
+<form action="" [formGroup]="form">
+    <label class="hoverable" for="fileInput">
+        <img [src]="url" (error)="imgError()">
+        <div class="hover-text">Choose file</div>
+        <div class="background"></div>
+      </label>
+      <br/>
+      <input id="fileInput" type='file' formControlName="file" #file (change)="uploadFile()">
+      <button *ngIf="show" (click)="delete()">Delete</button>
+</form>
+  

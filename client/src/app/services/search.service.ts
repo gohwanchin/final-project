@@ -21,8 +21,34 @@ export class SearchService {
     }
 
     getTV(id: number) {
+        const username = this.getUsername()
         return firstValueFrom(
-            this.http.get<Response>(URL + `/tv/${id}`)
+            this.http.post<Response>(URL + `/tv/${id}`, { username })
         )        
+    }
+
+    addToWatchlist(id: number) {
+        const username = this.getUsername()
+        return firstValueFrom(
+            this.http.post<Response>(URL + `/tv/${id}/add`, { username })
+        )    
+    }
+
+    removeFromWatchlist(id: number) {
+        const username = this.getUsername()
+        return firstValueFrom(
+            this.http.post<Response>(URL + `/tv/${id}/remove`, { username })
+        )    
+    }
+
+    getWatchlist() {
+        const username = this.getUsername()
+        return firstValueFrom(
+            this.http.get<Response>(URL + `/${username}/watchlist`)
+        )
+    }
+
+    private getUsername() {
+        return localStorage.getItem("username")
     }
 }

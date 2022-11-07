@@ -1,6 +1,5 @@
 <main class="col ps-md-2 pt-2">
-    <!-- <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
-        class="border rounded-3 p-1 text-decoration-none"><i class="bi bi-list py-2 p-1"></i></a> -->
+    <ng-content></ng-content>
     <div class="row mt-2">
         <div class="col-md-6 mb-4 d-flex flex-column">
             <h3 class="mx-auto">{{tv.name}} ({{tv.firstAirDate | slice:0:4}})</h3>
@@ -27,12 +26,12 @@
             <p *ngIf="tv.tagline">Tagline: {{tv.tagline}}</p>
             <p>Number of Seasons: {{tv.numOfSeasons}}</p>
             <p>Genres: {{tv.genres.join(', ')}}</p>
-            <form th:if="${!added}" th:action="@{|/t/title/${title.id}/add|}" method="post"><button type="submit"
-                    class="btn btn-primary"><i class="bi-plus-square"></i> Add to
-                    Watchlist</button></form>
-            <form th:if="${added}" th:action="@{|/t/title/${title.id}/remove|}" method="post"><button type="submit"
-                    class="btn btn-danger"><i class="bi-dash-square"></i> Remove from
-                    Watchlist</button></form>
+            <button *ngIf="!added; else removeBtn" (click)="add()" class="btn btn-primary"><i class="bi-plus-square"></i>
+                Add to Watchlist</button>
+            <ng-template #removeBtn>
+                <button (click)="remove()" class="btn btn-danger"><i class="bi-dash-square"></i> Remove from
+                    Watchlist</button>
+            </ng-template>
         </div>
     </div>
 </main>

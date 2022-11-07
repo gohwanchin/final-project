@@ -1,12 +1,16 @@
 package sg.edu.nus.server.repositories;
 
+import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
+import sg.edu.nus.server.models.Profile;
 import sg.edu.nus.server.models.UserModel;
 
 @Repository
@@ -53,5 +57,21 @@ public class UserRepository implements Queries {
         while(rs.next())
             list.add(rs.getInt("id"));
         return list;
+    }
+
+    public Boolean uploadProfile(MultipartFile file, String username) throws IOException{
+        return template.update(SQL_UPLOAD_BLOB, username, file.getInputStream(), file.getContentType()) == 1;
+    }
+
+    public Optional<Profile> getProfile(String username) {
+        return template.query(SQL_GET_PROFILE, (ResultSet rs) -> {
+            if (!rs.next())
+                return Optional.empty();
+            return Optional.of(Profile.create(rs));
+        }, username);
+    }
+
+    public Boolean deleteProfile(String username) {
+        return template.update(SQL_DELETE_PROFILE, username) > 0;
     }
 }

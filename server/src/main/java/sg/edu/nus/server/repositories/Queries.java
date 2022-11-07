@@ -14,4 +14,7 @@ public interface Queries {
                 = "select * from watchlists where (username, id) = (?, ?)";
     public static final String SQL_GET_WATCHLIST_BY_USER 
                 = "select id from watchlists where username = ?";
+	public static final String SQL_UPLOAD_BLOB = "insert into profile(username, image, content_type) values(?, ?, ?)";
+	public static final String SQL_GET_PROFILE = "select * from profile where username = ?";
+    public static final String SQL_DELETE_PROFILE = "delete from profile where username = ?";
 }

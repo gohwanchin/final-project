@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import sg.edu.nus.server.models.Tv;
-import sg.edu.nus.server.models.UserModel;
+import sg.edu.nus.server.models.*;
 import sg.edu.nus.server.repositories.UserRepository;
 
 @Service
@@ -36,20 +36,20 @@ public class UserService {
         }
     }
 
-    public Boolean addTitleToWatchlist(UserModel u, Integer id) {
-        return userRepo.addTitleToWatchlist(u.getUsername(), id);
+    public Boolean addTitleToWatchlist(String username, Integer id) {
+        return userRepo.addTitleToWatchlist(username, id);
     }
 
-    public Boolean removeTitleFromWatchlist(UserModel u, Integer id) {
-        return userRepo.removeTitleFromWatchlist(u.getUsername(), id);
+    public Boolean removeTitleFromWatchlist(String username, Integer id) {
+        return userRepo.removeTitleFromWatchlist(username, id);
     }
 
-    public Boolean checkTitleExists(UserModel u, Integer id) {
-        return userRepo.checkTitleExistsInWatchlist(u.getUsername(), id);
+    public Boolean checkTitleExists(String username, Integer id) {
+        return userRepo.checkTitleExistsInWatchlist(username, id);
     }
 
-    public List<Tv> getWatchlist(UserModel u) {
-        List<Integer> list = userRepo.getWatchlist(u.getUsername());
+    public List<Tv> getWatchlist(String username) {
+        List<Integer> list = userRepo.getWatchlist(username);
         logger.info(list.toString());
         List<Tv> watchlist = list.stream()
                 .map(id -> tmdbSvc.getTV(id))
@@ -57,5 +57,27 @@ public class UserService {
                 .map(Optional::get)
                 .collect(Collectors.toList());
         return watchlist;
+    }
+
+    public Boolean uploadProfile(MultipartFile file, String username) {
+        try {
+            return userRepo.uploadProfile(file, username);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return false;
+        }
+    }
+
+    public Optional<Profile> getProfile(String username) {
+        try {
+            return userRepo.getProfile(username);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    public Boolean deleteProfile(String username) {
+        return userRepo.deleteProfile(username);
     }
 }

@@ -25,13 +25,13 @@ export class RegisterComponent implements OnInit {
         .then(result => {
           console.log(result);
           this.authSvc.login(this.form.value.username, this.form.value.password)
-              .subscribe(res => {
+              .then(res => {
                 console.log(res);
                 this.router.navigate(['/search'])
               })
         }).catch(err => {
           console.error(err);
-          alert("There was an error registering the user \n Please try again")
+          alert("There was an error registering the user \nPlease try again")
         })
   }
 

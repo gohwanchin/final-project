@@ -17,12 +17,16 @@ import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
 import { LoginGuard } from './auth/login.guard';
+import { WatchlistComponent } from './components/watchlist/watchlist.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
   { path: 'results', component: ResultsComponent, canActivate: [AuthGuard] },
+  { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'tv/:id', component: TvDetailsComponent, canActivate: [AuthGuard] },
   { path: 'error/:code', component: ErrorComponent },
   { path: '**', redirectTo: '/error/404', pathMatch: 'full' }
@@ -36,7 +40,9 @@ const appRoutes: Routes = [
     TvDetailsComponent,
     ErrorComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    WatchlistComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

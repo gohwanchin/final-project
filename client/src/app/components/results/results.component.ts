@@ -22,7 +22,9 @@ export class ResultsComponent implements OnInit {
     if(!!!this.searchPage) {
       const page = this.route.snapshot.queryParams['page']
       const query = this.route.snapshot.queryParams['query']
+      const map = this.route.snapshot.queryParams
       console.info(page, query);
+      console.log(map);
       this.searchSvc.searchTV(query, page)
           .then(result => {
             console.debug(result)
