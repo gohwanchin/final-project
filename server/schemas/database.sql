@@ -26,8 +26,17 @@ create table watchlists(
     username varchar(32) not null,
     id int not null,
     date_added date not null,
-    rating int,
 
     primary key(username, id),
     constraint fk_username foreign key(username) references users(username)
+);
+
+create table ratings(
+    username varchar(32) not null,
+    id int not null,
+    date_added date not null,
+    rate int,
+
+    primary key(username, id),
+    constraint fk_rating_username foreign key(username) references users(username)
 );

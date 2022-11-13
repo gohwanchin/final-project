@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { User } from 'src/app/models';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class ProfileComponent implements OnInit {
 
   url!: string
   show = true
-
+  user!: User
   form!: FormGroup
 
   @ViewChild('file')
@@ -22,8 +23,14 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.url = this.userSvc.getProfileURL()
-    this.title.setTitle(this.userSvc.getUsername()!)
+    this.title.setTitle("Profile")
     this.form = this.createForm()
+    this.userSvc.getUserDetails().then(result => {
+      console.debug(result)
+      this.user = JSON.parse(result.data)
+    }).catch(err => {
+      console.error(err);
+    })
   }
 
   private createForm(){
@@ -46,7 +53,6 @@ export class ProfileComponent implements OnInit {
 
   delete(){
     console.log("delete");
-    
     this.userSvc.deleteProfile().then(result => {
       console.debug(result)
       if (result.code == 200)

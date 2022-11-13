@@ -24,8 +24,8 @@ public class UserService {
 
     private Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public Boolean login(UserModel u) {
-        return userRepo.userLogin(u);
+    public String loadUserByUsername(String username) {
+        return userRepo.loadUserByUsername(username);
     }
 
     public Boolean addUser(UserModel u) {
@@ -36,6 +36,9 @@ public class UserService {
         }
     }
 
+    public Optional<UserModel> getUserDetails(String username) {
+        return userRepo.getUserDetails(username);
+    }
     public Boolean addTitleToWatchlist(String username, Integer id) {
         return userRepo.addTitleToWatchlist(username, id);
     }
@@ -79,5 +82,17 @@ public class UserService {
 
     public Boolean deleteProfile(String username) {
         return userRepo.deleteProfile(username);
+    }
+
+    public Boolean addRating(String username, Integer id, Integer rate) {
+        return userRepo.addRating(username, id, rate);
+    }
+
+    public Boolean clearRating(String username, Integer id) {
+        return userRepo.clearRating(username, id);
+    }
+
+    public Integer getRating(String username, Integer id) {
+        return userRepo.getRating(username, id);
     }
 }

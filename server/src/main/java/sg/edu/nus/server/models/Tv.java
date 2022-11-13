@@ -13,6 +13,7 @@ public class Tv {
     private List<String> genres;
     private String homepage;
     private String name;
+    private Episode nextEp;
     private Integer numOfEps;
     private Integer numOfSeasons;
     private String originalLang;
@@ -21,6 +22,7 @@ public class Tv {
     private String overview;
     private String poster;
     private Double popularity;
+    private Integer rating;
     private List<SeasonSummary> seasons;
     private String tagline;
     private Double voteAverage;
@@ -95,6 +97,14 @@ public class Tv {
         this.name = name;
     }
 
+    public Episode getNextEp() {
+        return nextEp;
+    }
+
+
+    public void setNextEp(Episode nextEp) {
+        this.nextEp = nextEp;
+    }
 
     public Integer getNumOfEps() {
         return numOfEps;
@@ -175,6 +185,14 @@ public class Tv {
         this.popularity = popularity;
     }
 
+    public Integer getRating() {
+        return rating;
+    }
+
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
 
     public List<SeasonSummary> getSeasons() {
         return seasons;
@@ -234,6 +252,13 @@ public class Tv {
         tv.setGenres(genres);
         tv.setHomepage("homepage");
         tv.setName(o.getString("name"));
+        if(o.isNull("next_episode_to_air")){}
+        else{
+            Episode ep = Episode.create(o.getJsonObject("next_episode_to_air"));
+            ep.setShowName(tv.getName());
+            ep.setPoster("https://image.tmdb.org/t/p/w154" + o.getString("poster_path"));
+            tv.setNextEp(ep);
+        }
         tv.setNumOfEps(o.getInt("number_of_episodes"));
         tv.setNumOfSeasons(o.getInt("number_of_seasons"));
         tv.setOriginalLang(o.getString("original_language"));
@@ -268,9 +293,15 @@ public class Tv {
         JsonArrayBuilder seasonArr = Json.createArrayBuilder();
         for (SeasonSummary s : seasons)
             seasonArr.add(s.toJson());
-
-        return Json.createObjectBuilder()
-                .add("id", id)
+        if (rating == null)
+            this.rating = 0;
+        JsonObjectBuilder ob = Json.createObjectBuilder();
+        if (nextEp == null)
+            ob.addNull("nextEp");
+        else
+            ob.add("nextEp", nextEp.toJson());
+        
+        return ob.add("id", id)
                 .add("backdrop", backdrop)
                 .add("cast", castArr)
                 .add("firstAirDate", firstAirDate)
@@ -285,6 +316,7 @@ public class Tv {
                 .add("overview", overview)
                 .add("poster", poster)
                 .add("popularity", popularity)
+                .add("rating", rating)
                 .add("seasons", seasonArr)
                 .add("tagline", tagline)
                 .add("voteAverage", voteAverage)

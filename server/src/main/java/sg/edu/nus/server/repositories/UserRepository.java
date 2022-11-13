@@ -15,25 +15,27 @@ import sg.edu.nus.server.models.UserModel;
 
 @Repository
 public class UserRepository implements Queries {
-    
+
     @Autowired
     JdbcTemplate template;
 
-    public Boolean userLogin(UserModel u) {
-        SqlRowSet rs = template.queryForRowSet(SQL_GET_USER_BY_USERNAME_AND_PASS, u.getUsername(), u.getPassword());
-        return rs.next();
-    }
-
     public String loadUserByUsername(String username) {
         SqlRowSet rs = template.queryForRowSet(SQL_LOAD_USER_BY_USERNAME, username);
-        while(rs.next())
+        while (rs.next())
             return rs.getString("password");
         return "null";
     }
 
     public Boolean addUser(UserModel u) {
-        int added = template.update(SQL_ADD_USER, u.getUsername(), u.getPassword());
+        int added = template.update(SQL_ADD_USER, u.getUsername(), u.getPassword(), u.getEmail(), u.getGenre(), u.getPhone());
         return added > 0;
+    }
+
+    public Optional<UserModel> getUserDetails(String username) {
+        SqlRowSet rs = template.queryForRowSet(SQL_GET_USER, username);
+        if (rs.next())
+            return Optional.of(UserModel.create(rs));
+        return Optional.empty();
     }
 
     public Boolean addTitleToWatchlist(String username, Integer id) {
@@ -54,12 +56,12 @@ public class UserRepository implements Queries {
     public List<Integer> getWatchlist(String username) {
         List<Integer> list = new ArrayList<>();
         SqlRowSet rs = template.queryForRowSet(SQL_GET_WATCHLIST_BY_USER, username);
-        while(rs.next())
+        while (rs.next())
             list.add(rs.getInt("id"));
         return list;
     }
 
-    public Boolean uploadProfile(MultipartFile file, String username) throws IOException{
+    public Boolean uploadProfile(MultipartFile file, String username) throws IOException {
         return template.update(SQL_UPLOAD_BLOB, username, file.getInputStream(), file.getContentType()) == 1;
     }
 
@@ -73,5 +75,22 @@ public class UserRepository implements Queries {
 
     public Boolean deleteProfile(String username) {
         return template.update(SQL_DELETE_PROFILE, username) > 0;
+    }
+
+    public Boolean addRating(String username, Integer id, Integer rate) {
+        int added = template.update(SQL_ADD_RATING, username, id, new Date(), rate);
+        return added > 0;
+    }
+
+    public Boolean clearRating(String username, Integer id) {
+        int removed = template.update(SQL_CLEAR_RATING, username, id);
+        return removed > 0;
+    }
+
+    public Integer getRating(String username, Integer id) {
+        SqlRowSet rs = template.queryForRowSet(SQL_GET_RATING, username, id);
+        if (rs.next())
+            return rs.getInt("rate");
+        return 0;
     }
 }

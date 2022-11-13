@@ -17,6 +17,11 @@ export class UserService {
         return firstValueFrom(this.http.post<Response>(URL + '/upload', data))
     }
 
+    getUserDetails(){
+        const username = this.getUsername()
+        return firstValueFrom(this.http.get<Response>(URL + `/${username}`))
+    }
+
     deleteProfile() {
         const username = this.getUsername()
         return firstValueFrom(this.http.delete<Response>(URL + `/${username}/delete`))

@@ -28,6 +28,7 @@ export interface Tv {
     genres: Array<string>
     homepage: string
     name: string
+    nextEp: Episode
     numOfEps: number
     numOfSeasons: number
     originalLang: string
@@ -36,6 +37,7 @@ export interface Tv {
     overview: string
     poster: string
     popularity: number
+    rating: number
     seasons: Array<SeasonSummary>
     tagline: string
     voteAverage: number
@@ -60,6 +62,17 @@ export interface CastSummary {
     totalEpCount: number
 }
 
+export interface Episode {
+    id: number
+    airDate: string
+    episodeNum: number
+    name: string
+    overview: string
+    poster: string
+    seasonNum: number
+    showName: string
+}
+
 export interface SeasonSummary {
     id: number
     airDate: string
@@ -68,4 +81,12 @@ export interface SeasonSummary {
     overview: string
     poster: string
     seasonNum: number
+}
+
+export interface User {
+    username: string
+    password: string
+    email: string
+    genre: string
+    phone: string
 }

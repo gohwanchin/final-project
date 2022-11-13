@@ -1,13 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, firstValueFrom, tap } from "rxjs";
+import { firstValueFrom, tap } from "rxjs";
+import { User } from "../models";
 
 const URL = "http://localhost:8080"
 
 @Injectable()
 export class AuthService {
-    
-    constructor(private http: HttpClient) {}
+
+    constructor(private http: HttpClient) { }
 
     login(username: string, password: string) {
         return firstValueFrom(this.http.post<any>(URL + '/authenticate', { username, password }).pipe(
@@ -28,7 +29,7 @@ export class AuthService {
         return !!localStorage.getItem('token')
     }
 
-    register(username: string, password: string) {
-        return firstValueFrom(this.http.post(URL + '/register', {username, password }))
+    register(user: User) {
+        return firstValueFrom(this.http.post(URL + '/register', user))
     }
 }

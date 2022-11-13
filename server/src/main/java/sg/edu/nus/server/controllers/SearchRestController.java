@@ -54,6 +54,8 @@ public class SearchRestController {
             return ResponseEntity.status(HttpStatus.OK).body(resp.toJson().toString());
         }
         Tv tv = opt.get();
+        Integer rating = userSvc.getRating(username, tv_id);
+        tv.setRating(rating);
         Boolean added = userSvc.checkTitleExists(username, tv_id);
         JsonObject obj = Json.createObjectBuilder().add("added", added).add("details", tv.toJson()).build();
         resp.setCode(200);
@@ -90,6 +92,35 @@ public class SearchRestController {
         return ResponseEntity.status(HttpStatus.OK).body(resp.toJson().toString());
     }
 
+    @PostMapping("/tv/{tv_id}/rate")
+    public ResponseEntity<String> addRating(@PathVariable Integer tv_id, @RequestBody String payload) {
+        Response resp = new Response();
+
+        JsonObject o = Json.createReader(new StringReader(payload)).readObject();
+        Integer rate = o.getInt("rate");
+        String username = o.getString("username");
+
+        userSvc.addRating(username, tv_id, rate);
+        resp.setCode(200);
+        resp.setMessage("Successfully rated");
+        resp.setData("");
+        return ResponseEntity.status(HttpStatus.OK).body(resp.toJson().toString());
+    }
+
+    @PostMapping("/tv/{tv_id}/clearRating")
+    public ResponseEntity<String> clearRating(@PathVariable Integer tv_id, @RequestBody String payload) {
+        Response resp = new Response();
+
+        JsonObject o = Json.createReader(new StringReader(payload)).readObject();
+        String username = o.getString("username");
+
+        userSvc.clearRating(username, tv_id);
+        resp.setCode(200);
+        resp.setMessage("Successfully cleared rating");
+        resp.setData("");
+        return ResponseEntity.status(HttpStatus.OK).body(resp.toJson().toString());
+    }
+
     @GetMapping("/{username}/watchlist")
     public ResponseEntity<String> getWatchlist(@PathVariable String username) {
         Response resp = new Response();
@@ -102,6 +133,22 @@ public class SearchRestController {
         resp.setCode(200);
         resp.setMessage("%s watchlist".formatted(username));
         resp.setData(watchlist.toString());
+        return ResponseEntity.status(HttpStatus.OK).body(resp.toJson().toString());
+    }
+
+    @GetMapping("/genres")
+    public ResponseEntity<String> getGenres() {
+        Response resp = new Response();
+
+        String json = tmdbSvc.getGenres();
+        if (json.equals("null")) {
+            resp.setCode(404);
+            resp.setMessage("There was an error getting list of genres");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resp.toJson().toString());
+        }
+        resp.setCode(200);
+        resp.setMessage("Successfully retrieved list of genres");
+        resp.setData(json);
         return ResponseEntity.status(HttpStatus.OK).body(resp.toJson().toString());
     }
 }

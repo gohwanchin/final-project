@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Tv } from 'src/app/models';
 import { SearchService } from 'src/app/services/search.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-tv-details',
@@ -49,6 +51,27 @@ export class TvDetailsComponent implements OnInit {
       console.info(result.message)
       if (result.code == 200)
         this.added = false
+    }).catch(err => {
+      console.error(err);
+    })
+  }
+
+  rating(rate: number){
+    console.debug(`Rating: ${rate}`)
+    this.searchSvc.rate(this.id, rate).then(result =>{
+      console.info(result.message)
+      if (result.code == 200)
+        this.tv.rating = rate
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  clear() {
+    this.searchSvc.clearRating(this.id).then(result => {
+      console.info(result.message)
+      if (result.code == 200)
+        this.tv.rating = 0
     }).catch(err => {
       console.error(err);
     })

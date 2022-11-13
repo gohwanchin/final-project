@@ -3,3 +3,17 @@
     min-width: 150px;
     margin-right: 5px;
 }
+
+.cast {
+    scrollbar-width: thin;
+}
+
+.cast::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 16px;
+    border: 4px solid #fff;
+}
+
+.cast::-webkit-scrollbar {
+    width: 16px;
+}

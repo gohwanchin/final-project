@@ -46,6 +46,7 @@ public class TVSearchPage {
     public static TVSearchPage create(String json) {
         TVSearchPage page = new TVSearchPage();
         JsonObject o = Json.createReader(new StringReader(json)).readObject();
+        System.out.println(o.toString());
         page.setPage(o.getInt("page"));
         page.setTotalResults(o.getInt("total_results"));
         page.setTotalPages(o.getInt("total_pages"));

@@ -48,6 +48,26 @@ export class SearchService {
         )
     }
 
+    rate(id: number, rate: number) {
+        const username = this.getUsername()
+        return firstValueFrom(
+            this.http.post<Response>(URL + `/tv/${id}/rate`, { username, rate })
+        )
+    }
+
+    clearRating(id: number) {
+        const username = this.getUsername()
+        return firstValueFrom(
+            this.http.post<Response>(URL + `/tv/${id}/clearRating`, { username })
+        )
+    }
+
+    getGenres(){
+        return firstValueFrom(
+            this.http.get<Response>(URL + '/genres')
+        )
+    }
+
     private getUsername() {
         return localStorage.getItem("username")
     }

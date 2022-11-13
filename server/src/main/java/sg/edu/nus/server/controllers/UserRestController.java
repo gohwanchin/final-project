@@ -9,8 +9,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import sg.edu.nus.server.models.Profile;
-import sg.edu.nus.server.models.Response;
+import sg.edu.nus.server.models.*;
 import sg.edu.nus.server.services.UserService;
 
 @RestController
@@ -21,6 +20,24 @@ public class UserRestController {
     UserService userSvc;
 
     private Logger logger = LoggerFactory.getLogger(UserRestController.class);
+
+    @GetMapping("/{username}")
+    public ResponseEntity<String> getUserDetails(@PathVariable String username) {
+        logger.info("Getting user details for %s".formatted(username));
+        Response resp = new Response();
+
+        Optional<UserModel> opt = userSvc.getUserDetails(username);
+        if (opt.isEmpty()) {
+            resp.setCode(404);
+            resp.setMessage("User details for %s not found".formatted(username));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resp.toJson().toString());
+        }
+        logger.debug(opt.get().toJson().toString());
+        resp.setCode(200);
+        resp.setMessage("User details for %s retrieved".formatted(username));
+        resp.setData(opt.get().toJson().toString());
+        return ResponseEntity.status(HttpStatus.OK).body(resp.toJson().toString());
+    }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, path = "/upload")
     public ResponseEntity<String> uploadProfile(@RequestPart MultipartFile file, String username) {

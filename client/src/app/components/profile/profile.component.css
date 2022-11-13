@@ -1,7 +1,3 @@
-p {
-    font-family: Lato;
-  }
-  
   img {
     height: 100%;
     width: 100%;
@@ -11,8 +7,8 @@ p {
     position: relative;
     display: block;
     cursor: pointer;
-    height: 200px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
     border: 5px solid #000;
     border-radius: 50%;
   }

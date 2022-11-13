@@ -11,12 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import sg.edu.nus.server.models.UserModel;
-import sg.edu.nus.server.repositories.UserRepository;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService{
-    @Autowired
-    UserRepository userRepo; 
 
     @Autowired
     UserService userSvc;
@@ -28,7 +25,7 @@ public class JwtUserDetailsService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String pass = userRepo.loadUserByUsername(username);
+        String pass = userSvc.loadUserByUsername(username);
         if (!pass.equals("null"))
             return new User(username, pass, new ArrayList<>());
         else{

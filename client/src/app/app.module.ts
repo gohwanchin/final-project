@@ -19,6 +19,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { LoginGuard } from './auth/login.guard';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [LoginGuard] },
@@ -48,7 +49,8 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule, ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes, { useHash: true })
+    RouterModule.forRoot(appRoutes, { useHash: true }),
+    NgbModule
   ],
   providers: [SearchService, UserService,
     AuthService, AuthGuard, LoginGuard,

@@ -12,3 +12,21 @@
 .card:hover .card-title {
     color: #0000d7;
 }
+
+.close {
+    display: none;
+}
+
+.card:hover .close {
+    display: block;
+    visibility: visible;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    border-radius: 50%;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}

@@ -1,11 +1,15 @@
-<form action="" [formGroup]="form">
+<div class="col-md-6 my-auto mx-auto">
+  <form action="" [formGroup]="form">
     <label class="hoverable" for="fileInput">
-        <img [src]="url" (error)="imgError()">
-        <div class="hover-text">Choose file</div>
-        <div class="background"></div>
-      </label>
-      <br/>
-      <input id="fileInput" type='file' formControlName="file" #file (change)="uploadFile()">
-      <button *ngIf="show" (click)="delete()">Delete</button>
-</form>
-  
+      <img [src]="url" (error)="imgError()">
+      <div class="hover-text">Choose file</div>
+      <div class="background"></div>
+    </label>
+    <br/>
+    <input id="fileInput" type='file' formControlName="file" #file (change)="uploadFile()">
+    <button *ngIf="show" (click)="delete()">Delete</button>
+  </form>
+  <p>Email: {{user.email}}</p>  
+  <p>Favorite Genre: {{user.genre}}</p>  
+  <p>Phone no: {{user.phone}}</p>  
+</div>

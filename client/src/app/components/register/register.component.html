@@ -12,6 +12,19 @@
                     placeholder="password" required>
                 <label for="password">Password</label>
             </div>
+            <div class="form-floating mb-3">
+                <input type="email" name="email" id="email" formControlName="email" class="form-control"
+                    placeholder="email" required>
+                <label for="email">Email</label>
+            </div>
+            <select class="form-select form-select-lg mb-3" formControlName="genre">
+                <option *ngFor="let genre of genres" [value]="genre">{{genre}}</option>
+            </select>
+            <div class="form-floating mb-3">
+                <input type="text" name="phone" id="phone" formControlName="phone" class="form-control"
+                    placeholder="phone" required>
+                <label for="phone">Phone</label>
+            </div>
             <!-- <div class="border border-danger mb-3 text-danger" th:if="${msg}" th:text="${msg}"></div> -->
             <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Register</button>
         </form>

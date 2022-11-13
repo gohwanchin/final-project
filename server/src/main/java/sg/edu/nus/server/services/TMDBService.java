@@ -23,6 +23,7 @@ public class TMDBService {
     String apiKey;
 
     public TVSearchPage searchTV(String query, Integer page) {
+        query = query.replace(" ", "-");
         String url = UriComponentsBuilder.fromUriString(API_URL)
                 .path("/search/tv")
                 .queryParam("api_key", apiKey)
@@ -63,5 +64,20 @@ public class TMDBService {
             return Optional.empty();
         Tv tv = Tv.create(resp.getBody());
         return Optional.of(tv);
+    }
+
+    public String getGenres() {
+        String url = UriComponentsBuilder.fromUriString(API_URL)
+                .path("/genre/tv/list")
+                .queryParam("api_key", apiKey)
+                .queryParam("language", "en-US")
+                .toUriString();
+        RequestEntity<Void> req = RequestEntity.get(url).accept(MediaType.APPLICATION_JSON).build();
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<String> resp = template.exchange(req, String.class);
+        logger.debug(resp.getBody());
+        if (resp.getStatusCodeValue() != 200)
+            return "null";
+        return resp.getBody();
     }
 }

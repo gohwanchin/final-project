@@ -4,7 +4,8 @@
     <div class="row d-flex justify-content-center">
         <div class="col-md-8 mt-1 mb-3 text-center">
             <h2 class=" text">Watchlist</h2>
-            <div class="alert alert-info mt-4" role="alert" *ngIf="watchlist.length == 0">
+            <ng-template #generate><button class="btn btn-outline-success" (click)="generateSchedule()">Generate watch schedule</button></ng-template>
+            <div class="alert alert-info mt-4" role="alert" *ngIf="watchlist.length == 0; else generate">
                 You don't have any tv shows added to your watchlist!
               </div>
         </div>
@@ -12,11 +13,13 @@
     <div class="row row-cols-1 row-cols-md-4 g-5">
         <div class="col d-flex justify-content-center" *ngFor="let tv of watchlist">
             <div class="card h-100">
+                <button class="close btn btn-secondary btn-rounded btn-sm" (click)="close(tv.id)"><i class="fa-solid fa-xmark fa-lg"></i></button>
                 <img [src]="tv.poster" class="card-img-top rounded" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'">
                 <div class="card-body">
-                    <h5 class="card-title">{{tv.name}}</h5>
+                    <a [routerLink]="['/tv',tv.id]">
+                        <h5 class="card-title">{{tv.name}}</h5>
+                    </a>
                     <h6 class="card-subtitle text-muted">{{tv.firstAirDate | slice:0:4}}</h6>
-                    <a [routerLink]="['/tv',tv.id]" class="stretched-link"></a>
                 </div>
             </div>
         </div>
