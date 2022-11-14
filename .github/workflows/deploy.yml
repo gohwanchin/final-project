@@ -1,8 +1,8 @@
 name: Deploy to Heroku
 on:
   push:
-    tags:
-    - 'v*'
+    branches:
+    - "release"
 jobs:
   deploy_to_heroku:
     runs-on: ubuntu-latest
@@ -15,4 +15,4 @@ jobs:
         heroku_api_key: ${{secrets.HEROKU_KEY}}
         heroku_app_name: "tv-trakr"
         heroku_email: "gohwanchin@hotmail.com"
-				appdir: "server" # Deploys the api folder in your project
+			  appdir: "server"
