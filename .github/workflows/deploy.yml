@@ -15,4 +15,5 @@ jobs:
         heroku_api_key: ${{secrets.HEROKU_KEY}}
         heroku_app_name: "tv-trakr"
         heroku_email: "gohwanchin@hotmail.com"
-			  appdir: "server"
+        branch: ${{github.ref_name}}
+        appdir: "server"
