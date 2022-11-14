@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { firstValueFrom, tap } from "rxjs";
 import { User } from "../models";
 
-const URL = "http://localhost:8080"
+const URL = "https://tv-trakr.herokuapp.com/"
 
 @Injectable()
 export class AuthService {

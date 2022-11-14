@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { firstValueFrom } from "rxjs";
 import { Response, TVSearchPage } from "../models";
 
-const URL = "http://localhost:8080/api"
+const URL = "https://tv-trakr.herokuapp.com/api"
 
 @Injectable()
 export class SearchService {
