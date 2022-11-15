@@ -43,7 +43,7 @@ export class WatchlistComponent implements OnInit {
         .filter(ep => ep != null)
         .filter(ep => this.checkAirDate(ep.airDate))
         .sort((a, b) => (a.airDate < b.airDate ? -1 : 1))
-    console.log(list);
+    console.info(list);
     const html = this.generateHTML(list)
     const templateParams = {
       username: this.user.username,
@@ -53,8 +53,10 @@ export class WatchlistComponent implements OnInit {
     console.info(templateParams)
     emailjs.send("service_dm8zf4h","template_bpvpd49", templateParams).then(result => {
       console.debug(result);
+      alert(`Successfully sent schedule to ${this.user.email}`)
     }).catch(err => {
-      console.error();
+      console.error(err);
+      alert("There was an error.\nPlease try again")
     })
   }
 
@@ -95,12 +97,12 @@ export class WatchlistComponent implements OnInit {
 
   private getDates() {
     var today = new Date;
-    var nextWeekStart = today.getDate() - today.getDay() + 8;
+    var nextWeekStart = today.getDate() + 1;
     this.nextWeekFrom = new Date(today.setDate(nextWeekStart));
     this.nextWeekFrom.setHours(0, 0, 0)
-    var nextWeekEnd = today.getDate() - today.getDay() + 7;
+    var nextWeekEnd = today.getDate() + 6;
     this.nextWeekTo = new Date(today.setDate(nextWeekEnd));
-    this.nextWeekTo.setHours(11, 59, 59)
+    this.nextWeekTo.setHours(23, 59, 59)
 
     console.info('nextWeekFrom: ' + this.nextWeekFrom.toString())
     console.info('nextWeekTo  : ' + this.nextWeekTo.toString())

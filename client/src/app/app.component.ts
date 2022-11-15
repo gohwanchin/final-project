@@ -45,6 +45,10 @@ export class AppComponent implements OnInit {
     this.form = this.createForm()
   }
 
+  searchNav() {
+    this.router.navigate(['/search'])
+  }
+
   private createForm() {
     return this.fb.group({
       query: this.fb.control('', Validators.required)
