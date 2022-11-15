@@ -1,1 +1,1 @@
-[![Deploy to Heroku](https://github.com/gohwanchin/final-project/actions/workflows/deploy.yml/badge.svg)](https://github.com/gohwanchin/final-project/actions/workflows/deploy.yml)
+[![Deploy to Heroku](https://github.com/gohwanchin/final-project/actions/workflows/deploy.yml/badge.svg?branch=release)](https://github.com/gohwanchin/final-project/actions/workflows/deploy.yml)
